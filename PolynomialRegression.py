@@ -1,3 +1,7 @@
+# FOR POLYNOMIAL REGRESSION WITH ONE-HOT ENCODING, REMOVE BIAS COLUMN
+# reshaped = X[:,1].reshape(len(X[:,1]),1)
+# reshaped = Xt[:,1].reshape(len(Xt[:,1]),1)
+
 def polynomial_regression(X,y,order,X_test):
     import numpy as np
     from sklearn.preprocessing import PolynomialFeatures

@@ -2,8 +2,12 @@ def onehot_linearclassification(X, y, X_test):
     import numpy as np
     from sklearn.preprocessing import OneHotEncoder
     # onehot = OneHotEncoder(sparse_output=False)
-    # Y_onehot = onehot.fit_transform(y).toarray()
+    # Y_onehot = onehot.fit_transform(y)
     # print(Y_onehot)
+    # this is to be run if y is in the form of 1D array, if y is already in one-hot encoding form, then we can skip this step
+    # eg y = np.array([[1],[1],[2],[3],[2]])
+    # y = np.array([[1,0,0], [1,0,0], [0,1,0], [0,0,1], [0,1,0]])
+    # AFTER RUNNING, TAKE Y_onehot AS THE NEW y FOR THE LINEAR REGRESSION PROCESS BELOW
 
     #linear regression process
     if X.shape[1]<X.shape[0]:
@@ -30,7 +34,20 @@ def onehot_linearclassification(X, y, X_test):
     print("MEAN square error is", mean_squared_error, "\n")
 
     y_predicted=X_test@w
-    y_predicted=np.argmax(y_predicted,axis=1)
+    y_predicted=np.argmax(y_predicted,axis=1) # Maximum index along axis 1 (rows), outputs the index the max value is located at
     print("y_predicted is\n", y_predicted, "\n")
+
+# MANUAL ONE-HOT ENCODING FOR 3 CLASSES
+# Ytr_onehot = list()
+# for i in y_train:
+# letter = [0, 0, 0]
+# letter[i] = 1
+# Ytr_onehot.append(letter)
+# Yts_onehot = list()
+# for i in y_test:
+# letter = [0, 0, 0]
+# letter[i] = 1
+# Yts_onehot.append(letter)
+
 
 
