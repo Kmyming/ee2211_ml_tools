@@ -6,7 +6,7 @@ def polynomial_regression(X,y,order,X_test):
     import numpy as np
     from sklearn.preprocessing import PolynomialFeatures
     poly = PolynomialFeatures(order)
-    P = poly.fit_transform(X)
+    P = poly.fit_transform(X) # learns which new feature combinations to create based on the input dimensions) and then applies this transformation to the same data.
     print("the number of parameters: ", P.shape[1])
     print("the number of samples: ", P.shape[0])
     if P.shape[1] < P.shape[0]:
@@ -40,7 +40,7 @@ def polynomial_regression(X,y,order,X_test):
     print("square error is", sum_of_square)
     print("MEAN square error is", mean_squared_error, "\n")
 
-    P_test = poly.fit_transform(X_test)
+    P_test = poly.transform(X_test) # applies the same transformation to the test data, ensuring that the same polynomial features are created for the test set as were created for the training set.
     print("transformed test sample P_test is")
     print(P_test)
     print("")
