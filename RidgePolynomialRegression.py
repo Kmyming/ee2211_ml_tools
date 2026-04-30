@@ -58,19 +58,9 @@ def ridge_poly_regression(X,y,LAMBDA,order, form, X_test):
     print("MEAN square error is", mean_squared_error, "\n")
 
     # if single class classification
-    # y_classified = np.sign(y_predicted)
-    # print("y_classified is", y_classified)
-    #HI
-    # return(system, P, w, y_predicted, y_classified))
-
-
-
-
-
-
-
-
-
+    y_classified = np.sign(y_predicted)
+    print("y_classified is", y_classified)
+    return(system, P, w, y_predicted, y_classified)
 
 def ridge_poly_regression_simplified(X,y,LAMBDA,order, form, X_test, y_test):
     import numpy as np
@@ -139,3 +129,13 @@ def ridge_poly_regression_simplified(X,y,LAMBDA,order, form, X_test, y_test):
     # print("square error is", sum_of_square)
     print("ridge test MEAN square error is", mean_squared_error, "\n")
 
+if __name__ == "__main__":
+    # sample data
+    import numpy as np
+
+    X = np.array([[1,1],[2,1],[1,2],[2,3]])
+    Y = np.array([[2],[3.1],[3.5],[4]])
+    X_fitted=np.hstack((np.ones((len(X),1)),X))
+    X_test = np.array([[1,-2]])
+    X_test_fitted=np.hstack((np.ones((len(X_test),1)),X_test))
+    ridge_poly_regression(X,Y,0.1,2,"auto",X_test)

@@ -1,25 +1,12 @@
-def pearson_correlation(X,Y):
-    import numpy as np
-    meanX = np.mean(X, axis=1)
-    standard_devX = np.std(X, axis=1)
-    Var_X = np.var(X, axis=1)
-    print('meanX',meanX)
-    print('stdX',standard_devX)
-    print('varX',Var_X)
+from statistical_functions import pearson_correlation as _pearson_correlation
 
-    print(Y)
-    meanY = np.mean(Y, axis=1)
-    standard_devY = np.std(Y, axis=1)
-    Var_Y = np.var(Y, axis=1)
-    print('meanY',meanY)
-    print('stdY',standard_devY)
-    print('varY',Var_Y)
 
-    pearson = []
-    covs = []
-    for i in range(len(meanX)):
-        cov_sum = 0
-        for j in range(6):
-            cov_sum += (X[i][j] - meanX[i]) * (Y[0][j] - meanY[0])
-        pearson.append(cov_sum / 6 / standard_devY / standard_devX[i])
-    print(pearson)
+def pearson_correlation(X, Y):
+    """Backward-compatible wrapper for the Pearson correlation objective."""
+    return _pearson_correlation(X, Y)
+
+
+if __name__ == "__main__":
+    data = [0.3510, 2.1812, 0.2415, -0.1096, 0.1544]
+    target = [0.2758, 1.4392, -0.4611, 0.6154, 1.0006]
+    print(f"Pearson's r: {pearson_correlation(data, target):.4f}")

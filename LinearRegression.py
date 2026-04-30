@@ -36,3 +36,14 @@ def linear_regression(X, y, X_test):
 
 
     return(system, w, sum_of_square, mean_squared_error, y_predicted)
+
+if __name__ == "__main__":
+    # sample data
+    import numpy as np
+
+    X = np.array([[1,2],[0,6],[1,0],[0,5],[1,7]])
+    Y = np.array([[1],[2],[3],[4],[5]])
+    X_test = np.array([[1,3]])
+    X_fitted=np.hstack((np.ones((len(X),1)),X))
+    X_test_fitted=np.hstack((np.ones((len(X_test),1)),X_test))
+    linear_regression(X_fitted,Y,X_test_fitted)

@@ -1,12 +1,8 @@
-# FOR POLYNOMIAL REGRESSION, REMOVE BIAS COLUMN
-# reshaped = X[:,1].reshape(len(X[:,1]),1)
-# reshaped = Xt[:,1].reshape(len(Xt[:,1]),1)
-
-def polynomial_regression(X,y,order,X_test):
+def polynomial_regression_onehot(X,y,order,X_test):
     import numpy as np
     from sklearn.preprocessing import PolynomialFeatures
     poly = PolynomialFeatures(order)
-    P = poly.fit_transform(X) # learns which new feature combinations to create based on the input dimensions) and then applies this transformation to the same data.
+    P = poly.fit_transform(X)
     print("the number of parameters: ", P.shape[1])
     print("the number of samples: ", P.shape[0])
     if P.shape[1] < P.shape[0]:
@@ -40,25 +36,15 @@ def polynomial_regression(X,y,order,X_test):
     print("square error is", sum_of_square)
     print("MEAN square error is", mean_squared_error, "\n")
 
-    P_test = poly.transform(X_test) # applies the same transformation to the test data, ensuring that the same polynomial features are created for the test set as were created for the training set.
+    P_test = poly.transform(X_test)
     print("transformed test sample P_test is")
     print(P_test)
     print("")
     y_predicted = P_test @ w
     print("y_predicted is")
     print(y_predicted)
-    print("y_predicted_classified is\n", np.sign(y_predicted), "\n")
-
-
-    # if single class classification
-    # y_classified = np.sign(y_predicted)
-    # print("y_classified is", y_classified)
-    #
-    # return(system, P, w, y_predicted, y_classified)
-
-    # print("P rank:", np.linalg.matrix_rank(P))
-    # result=np.hstack((P,y))
-    # print("P|y rank: ", np.linalg.matrix_rank(result))
+    y_predicted=np.argmax(y_predicted,axis=1) # Maximum index along axis 1 (rows), outputs the index the max value is located at
+    print("y_predicted is\n", y_predicted, "\n")
 
 if __name__ == "__main__":
     # sample data
@@ -69,4 +55,4 @@ if __name__ == "__main__":
     X_fitted=np.hstack((np.ones((len(X),1)),X))
     X_test = np.array([[1,-2]])
     X_test_fitted=np.hstack((np.ones((len(X_test),1)),X_test))
-    polynomial_regression(X,Y,2,X_test)
+    polynomial_regression_onehot(X, Y, 2, X)

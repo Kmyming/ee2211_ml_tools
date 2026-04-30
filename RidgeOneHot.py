@@ -1,7 +1,4 @@
-from numpy.ma.core import identity
-
-
-def ridge_regression(X, y, LAMBDA, X_test, form="auto"):
+def ridge_linear_regression_onehot(X,y,LAMBDA,order, form, X_test):
     import numpy as np
     if form=="auto":
         if X.shape[1] < X.shape[0]:
@@ -46,14 +43,16 @@ def ridge_regression(X, y, LAMBDA, X_test, form="auto"):
 
     y_predicted=X_test@w
     print("y_predicted is\n", y_predicted, "\n")
+    y_predicted=np.argmax(y_predicted,axis=1) # Maximum index along axis 1 (rows), outputs the index the max value is located at
+    print("y_predicted class is\n", y_predicted, "\n")
 
 if __name__ == "__main__":
     # sample data
     import numpy as np
 
-    X = np.array([[1,1],[2,1],[1,2],[2,3]])
-    Y = np.array([[2],[3.1],[3.5],[4]])
+    X = np.array([[2,1,0],[0,3,1],[1,0,3],[3,1,4],[-1,2,1]])
+    Y = np.array([[1,0,0],[0,0,1],[0,1,0],[1,0,0],[0,1,0]])
     X_fitted=np.hstack((np.ones((len(X),1)),X))
-    X_test = np.array([[1,-2]])
+    X_test = np.array([[1,1,2]])
     X_test_fitted=np.hstack((np.ones((len(X_test),1)),X_test))
-    ridge_regression(X_fitted, Y, 0.1, X_test_fitted)
+    ridge_linear_regression_onehot(X_fitted, Y, 0.01, 2, "auto", X_test_fitted)

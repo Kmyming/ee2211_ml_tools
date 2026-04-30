@@ -37,17 +37,28 @@ def onehot_linearclassification(X, y, X_test):
     y_predicted=np.argmax(y_predicted,axis=1) # Maximum index along axis 1 (rows), outputs the index the max value is located at
     print("y_predicted is\n", y_predicted, "\n")
 
-# MANUAL ONE-HOT ENCODING FOR 3 CLASSES
-# Ytr_onehot = list()
-# for i in y_train:
-# letter = [0, 0, 0]
-# letter[i] = 1
-# Ytr_onehot.append(letter)
-# Yts_onehot = list()
-# for i in y_test:
-# letter = [0, 0, 0]
-# letter[i] = 1
-# Yts_onehot.append(letter)
+if __name__ == "__main__":
+    # sample data
+    import numpy as np
+
+    X = np.array([[1,1],[2,1],[1,2],[2,3]])
+    Y = np.array([[2],[3.1],[3.5],[4]])
+    X_fitted=np.hstack((np.ones((len(X),1)),X))
+    X_test = np.array([[1,-2]])
+    X_test_fitted=np.hstack((np.ones((len(X_test),1)),X_test))
+    onehot_linearclassification(X_fitted,Y,X_test_fitted)
+
+    # MANUAL ONE-HOT ENCODING FOR 3 CLASSES
+    # Ytr_onehot = list()
+    # for i in y_train:
+    # letter = [0, 0, 0]
+    # letter[i] = 1
+    # Ytr_onehot.append(letter)
+    # Yts_onehot = list()
+    # for i in y_test:
+    # letter = [0, 0, 0]
+    # letter[i] = 1
+    # Yts_onehot.append(letter)
 
 
 
