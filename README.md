@@ -64,27 +64,7 @@ Inputs deal with flat 1D lists of identical length, primarily denoted as `featur
 * **`standard_deviation`**: Modify the `feature` list to query standard deviation under population basis.
 * **`pearson_r`**: Input strictly parallel `feature` (the $x$ variable) and `target` (the $y$ variable) arrays to map Pearson's correlation coefficient $r$.
 
-## 3. Optimisation Examples
-**Category:** `optimization_examples`
-Functions leverage mathematical stepping bounds. Requires defining a target mathematical object function (`func`) and its positional derivative (`grad_func`).
-
-* **`gradient_descent_1d`**: Uses a mathematical function $f(x)$ and $f'(x)$. Adjust `start_value`, `learning_rate`, and `iterations` directly via the function call.
-* **`gradient_descent_2d`**: Uses $f(x, y)$ alongside partial derivatives. Accepts custom `start_x`, `start_y`, learning rate steps, and sequence bounds constraints.
-
-## 4. Tree Examples
-**Category:** `tree_examples`
-Decision tree variables.
-
-* **`impurity`**: Provide class counts per layer array (e.g., `layers = [[[8, 5, 5]], ...]`). Calculates the structural Gini, entropy, and misclassification error levels.
-* **`mse`**: Requires actual feature arrays `X` and ground truth arrays `y`, along with custom string paths `thresholds`. Computes decision thresholds and node splits, reporting exact Mean Squared Errors at node endpoints.
-
-## 5. Clustering Examples
-**Category:** `clustering_examples`
-Unsupervised prediction techniques.
-
-* **`kmeans`**: Supply clustering dataset variable `X` and raw starting centroid definitions via `init_centroids`. Adjust the `max_iter` parameter in the bounds call to verify step convergence boundaries along loops.
-
-## 6. Regression Examples
+## 3. Regression Examples
 **Category:** `regression_examples`
 All regression modules leverage standard training inputs `X` (raw shapes), targets `Y`, and an eventual tester bounds dataset `X_test`. In functions explicitly requiring `X_fitted` or `X_test_fitted`, the `main.py` functions use `np.hstack` to append a column of ones so the models can train an unscaled bias (intercept) parameter correctly.
 
@@ -102,3 +82,24 @@ For any function leveraging Ridge calculations with parameter `form` (`ridge_pol
 * `"auto"`: A detector mode estimating dimensionality. The code determines algorithmically if the system's mapping is underdetermined or overdetermined.
 * `"primal"`: Enforces resolving Ridge computation using the *Primal Form* $w = (X^TX + \lambda I)^{-1}X^Ty$. Preferred when resolving computationally large samples $N$ with relatively fewer total dimensions $D$ (Overdetermined Systems).
 * `"dual"`: Enforces resolving Ridge computation using the *Dual Form* $w = X^T(XX^T + \lambda I)^{-1}y$. Used optimally when you are scaling very few samples spanning an excessive number of computed dimensions (Underdetermined Systems).
+
+## 4. Optimisation Examples
+**Category:** `optimization_examples`
+Functions leverage mathematical stepping bounds. Requires defining a target mathematical object function (`func`) and its positional derivative (`grad_func`).
+
+* **`gradient_descent_1d`**: Uses a mathematical function $f(x)$ and $f'(x)$. Adjust `start_value`, `learning_rate`, and `iterations` directly via the function call.
+* **`gradient_descent_2d`**: Uses $f(x, y)$ alongside partial derivatives. Accepts custom `start_x`, `start_y`, learning rate steps, and sequence bounds constraints.
+
+## 5. Tree Examples
+**Category:** `tree_examples`
+Decision tree variables.
+
+* **`impurity`**: Provide class counts per layer array (e.g., `layers = [[[8, 5, 5]], ...]`). Calculates the structural Gini, entropy, and misclassification error levels.
+* **`mse`**: Requires actual feature arrays `X` and ground truth arrays `y`, along with custom string paths `thresholds`. Computes decision thresholds and node splits, reporting exact Mean Squared Errors at node endpoints.
+
+## 6. Clustering Examples
+**Category:** `clustering_examples`
+Unsupervised prediction techniques.
+
+* **`kmeans`**: Supply clustering dataset variable `X` and raw starting centroid definitions via `init_centroids`. Adjust the `max_iter` parameter in the bounds call to verify step convergence boundaries along loops.
+
