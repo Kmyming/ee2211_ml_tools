@@ -21,6 +21,8 @@ def gradient_descent_1d(func=None, grad_func=None, start_value=2.0, learning_rat
 
     current_value = float(start_value)
     history = []
+    print(f"Initial x: {current_value:.5f}, f(x): {func(current_value):.5f}, gradient: {grad_func(current_value):.5f}")
+    print("-" * 30)
     for iteration in range(1, iterations + 1):
         gradient_before_update = float(grad_func(current_value))
         current_value = float(current_value - learning_rate * gradient_before_update)

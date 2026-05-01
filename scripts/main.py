@@ -1,6 +1,7 @@
 from unittest import result
 
 import numpy as np
+import inspect
 
 from sklearn.preprocessing import OneHotEncoder
 from decision_tree_impurity import overall_impurity, tree_impurity
@@ -33,13 +34,13 @@ from activation_functions import relu, sigmoid
 
 
 # Change this value to choose exactly one example to run.
-SELECTED_EXAMPLE = "activation_functions"
+SELECTED_EXAMPLE = "onehot_linear_classification"
 
 
 def run_matrix_linear_independence_example():
 	# Input: a list of row vectors.
 	# Output: a tuple of (is_independent, rank, number_of_vectors).
-	vectors = [[1, 2], [1, 1]]
+	vectors = [[1, 2], [3, 4], [5, 6]]
 	independent, rank, num_vectors = are_linearly_independent(vectors)
 	print("Linearly Independent" if independent else "Linearly Dependent")
 	print(f"Rank: {rank} / Number of vectors: {num_vectors}")
@@ -62,14 +63,14 @@ def run_matrix_determinant_example():
 def run_matrix_inverse_example():
 	# Input: an invertible square matrix.
 	# Output: the inverse matrix.
-	X = np.array([[3, 2], [2, 4]])
+	X = np.array([[1, 1],[1, 1]])
 	print("Inverse:\n", inverse(X))
 
 
 def run_matrix_invertibility_example():
 	# Input: any matrix.
 	# Output: dictionary describing left/right invertibility and rank.
-	X = np.array([[1, 2], [0, 1], [2, 3]])
+	X = np.array([[1, 1],[1, 1]])
 	print("Invertibility info:", left_right_invertible(X))
 
 
@@ -84,8 +85,8 @@ def run_matrix_rc_example():
 def run_matrix_solve_le_example():
 	# Input: matrix X and target y for Xw = y.
 	# Output: the weight vector w if a solution exists.
-	X = np.array([[1, 2], [3, 4]])
-	y = np.array([[5], [11]])
+	X = np.array([[1, 4],[2, 7],[-3,11]])
+	y = np.array([[1], [-2.5],[4]])
 	print("Linear equation solution:\n", solveLE(X, y))
 
 
@@ -107,16 +108,16 @@ def run_statistics_std_example():
 def run_statistics_pearson_example():
 	# Input: two same-length 1D sequences.
 	# Output: Pearson correlation coefficient r.
-	feature = [0.0838, -0.4092, -0.3025, 1.4261, 0.4658]
-	target = [0.8206, 1.0639, 0.6895, -0.0252, 0.995]
+	feature = [-1.7253, 0.7804, -0.9944, 0.5307, -1.0502]
+	target = [2.9972, 1.1399, 2.228, 0.3387, 2.5042]
 	print("Pearson's r:", pearson_correlation(feature, target))
 
 def run_linear_regression_example():
 	# Input: X is the raw training feature matrix, Y is the target vector, X_test is the raw test matrix.
 	# Output: fitted weights, training error, and predicted test output.
-	X = np.array([[1, 2], [0, 6], [1, 0], [0, 5], [1, 7]])
-	Y = np.array([[1], [2], [3], [4], [5]])
-	X_test = np.array([[1, 3]])
+	X = np.array([[1,2,3],[4,0,6],[1,1,0],[0,1,2],[5,7,-2],[-1,4,0]])
+	Y = np.array([[1], [1], [2], [3], [2], [3]])
+	X_test = np.array([[1, -2, 3]])
 	X_fitted = np.hstack((np.ones((len(X), 1)), X))
 	X_test_fitted = np.hstack((np.ones((len(X_test), 1)), X_test))
 	linear_regression(X_fitted, Y, X_test_fitted)
@@ -125,18 +126,18 @@ def run_linear_regression_example():
 def run_polynomial_regression_example():
 	# Input: raw features X, target Y, polynomial order, and raw test features X_test.
 	# Output: polynomial feature matrix, fitted weights, training error, and test prediction.
-	X = np.array([[1, 1], [2, 1], [1, 2], [2, 3]])
-	Y = np.array([[2], [3.1], [3.5], [4]])
-	X_test = np.array([[1, -2]])
-	polynomial_regression(X, Y, 2, X_test)
+	X = np.array([[4],[7],[10],[2],[3],[9]])
+	Y = np.array([[-1], [-1], [-1], [1], [1],[1]])
+	X_test = np.array([[4],[7],[10],[2],[3],[9],[6]])
+	polynomial_regression(X, Y, 4, X_test)
 
 
 def run_ridge_regression_example():
 	# Input: fitted feature matrix X, target Y, ridge lambda, and fitted test matrix X_test.
 	# Output: ridge weights, training error, and test prediction.
-	X = np.array([[1, 1], [2, 1], [1, 2], [2, 3]])
-	Y = np.array([[2], [3.1], [3.5], [4]])
-	X_test = np.array([[1, -2]])
+	X = np.array([[1, 3, 1], [-4, 0, -1], [3, 1, 8], [2, 1, 6], [8, 4, 6]])
+	Y = np.array([[1], [1], [2], [3], [3]])
+	X_test = np.array([[1, -2, 4]])
 	X_fitted = np.hstack((np.ones((len(X), 1)), X))
 	X_test_fitted = np.hstack((np.ones((len(X_test), 1)), X_test))
 	ridge_regression(X_fitted, Y, 0.1, X_test_fitted)
@@ -154,11 +155,11 @@ def run_ridge_polynomial_regression_example():
 def run_onehot_linear_classification_example():
 	# Input: fitted feature matrix X, class targets Y, and fitted test matrix X_test.
 	# Output: estimated class scores and the predicted class index.
-	X = np.array([[1, 1], [2, 1], [1, 2], [2, 3]])
-	Y = np.array([[1], [2], [3], [2]])
+	X = np.array([[1,2,3],[4,0,6],[1,1,0],[0,1,2],[5,7,-2],[-1,4,0]])
+	Y = np.array([[1], [1], [2], [3], [2], [3]])
 	onehot = OneHotEncoder(sparse_output=False)
 	Y_onehot = onehot.fit_transform(Y)
-	X_test = np.array([[2, 1]])
+	X_test = np.array([[1, -2, 3]])
 	X_fitted = np.hstack((np.ones((len(X), 1)), X))
 	X_test_fitted = np.hstack((np.ones((len(X_test), 1)), X_test))
 	onehot_linearclassification(X_fitted, Y_onehot, X_test_fitted)
@@ -207,15 +208,15 @@ def run_activation_functions_example():
 def run_optimization_gradient_descent_1d_example():
 	# Input: default 1-variable objective, starting value, learning rate, and iteration count.
 	# Output: final x iteration values and per-iteration history.
-	func = lambda x: np.cos(x ** 2) ** 2
-	grad_func = lambda x: -2 * x * np.sin(2 * x ** 2)
-	start_value = 1
+	func = lambda x: np.sin(x) ** 2
+	grad_func = lambda x: 2 * np.sin(x) * np.cos(x)
+	start_value = 3
 	learning_rate = 0.1
-	iterations = 4
-	final_x, history, _, _ = gradient_descent_1d(func, grad_func, start_value, learning_rate, iterations)
-	print("Function: f(x) = cos(x^2)^2")
-	print("Derivative: df/dx = -2*x*sin(2*x^2)")
+	iterations = 1
+	print(f"Function: f(x) = {inspect.getsource(func)}")
+	print(f"Derivative: df/dx = {inspect.getsource(grad_func)}")
 	print("-" * 30)
+	final_x, history, _, _ = gradient_descent_1d(func, grad_func, start_value, learning_rate, iterations)
 	for step in history:
 		print(f"Iteration {step['iteration']}:")
 		print(f"  x        = {step['x']:.5f}")
@@ -228,17 +229,16 @@ def run_optimization_gradient_descent_1d_example():
 def run_optimization_gradient_descent_2d_example():
 	# Input: default 2-variable objective, starting point, learning rate, and iteration count.
 	# Output: final x,y iteration values  and per-iteration history.
-	func = lambda x, y: x ** 2
-	grad_func = lambda x, y: (2.0 * x, 0.0)
+	func = lambda x, y: x ** 2 + x * y ** 2
+	grad_func = lambda x, y: (2.0 * x + y ** 2, 2.0 * x * y)
 	start_x=3.0
 	start_y=2.0
 	learning_rate=0.2
-	iterations=5
-	x_value, y_value, history, _, _ = gradient_descent_2d(func, grad_func, start_x, start_y, learning_rate, iterations)
-	print("Function: f(x,y) = x^2")
-	print("df/dx = 2*x")
-	print("df/dy = 0")
+	iterations=1
+	print(f"Function: f(x,y) = {inspect.getsource(func)}")
+	print(f"(df/dx, df/dy) = {inspect.getsource(grad_func)}")
 	print("-" * 30)
+	x_value, y_value, history, _, _ = gradient_descent_2d(func, grad_func, start_x, start_y, learning_rate, iterations)
 	for step in history:
 		print(f"Iteration {step['iteration']}:")
 		print(f"  Gradient: ({step['gradient_x']:.4f}, {step['gradient_y']:.4f})")
@@ -285,10 +285,12 @@ def run_tree_impurity_example():
 def run_tree_decision_example():
 	# Input: 1D feature values, target values, and threshold path definitions.
 	# Output: overall leaf-prediction MSE and a depth-by-depth split summary.
-	X = np.array([1, 0.8, 2, 2.5, 3, 4, 4.2, 6, 6.3, 7, 8, 8.2, 9])
-	y = np.array([2, 3, 2.5, 1, 2.3, 2.8, 1.5, 2.6, 3.5, 4, 3.5, 5, 4.5])
-	thresholds = [("", 5)]
-	impurity_measure = "gini"
+	X = np.array([0.2, 0.7, 1.8, 2.2, 3.7, 4.1, 4.5, 5.1, 6.3, 7.4])
+	y = np.array([2.1, 1.5, 5.8, 6.1, 9.1, 9.5, 9.8, 12.7, 13.8, 15.9])
+	thresholds = [("", 3)]
+	# You can modify the thresholds list to test different splits. Each tuple is (path, threshold), where path is a string of "L" and "R" indicating left/right splits from the root, and threshold is the numeric split point for that node.
+	# TH = [("", 5), ("L", 2.5), ("R", 7.5)]
+	impurity_measure = "MSE"
 	# Example 1: MSE-based splitting (default)
 	print(f"===== Decision Tree with {impurity_measure.upper()}-based splitting =====")
 	tree_overall_impurity(X, y, thresholds, impurity_measure=impurity_measure)
@@ -321,9 +323,9 @@ def run_tree_regression_example():
 def run_kmeans_example():
 	# Input: 2D data points, initial centroids, and max_iter.
 	# Output: centroids and labels after limited iterations and after convergence.
-	X = np.array([[0, 0], [0, 1], [1, 1], [1, 0], [3, 0], [3, 1], [4, 0], [4, 1]])
-	init_centroids = np.array([[0, 0], [3, 0]])
-	max_iter= 2
+	X = np.array([[1, 50], [2, 60], [3, 66], [4, 68], [5, 71], [6, 72], [7, 75], [8, 82],[9,90],[10,99]])
+	init_centroids = np.array([[3, 66], [7, 75]])
+	max_iter= 1
 	result = run_kmeans(X, init_centroids, max_iter)
 	print(f"=== After {max_iter} Iteration(s) ===")
 	print("Centroids:\n", result["partial"]["centroids"])

@@ -20,7 +20,8 @@ def gradient_descent_2d(func=None, grad_func=None, start_x=3.0, start_y=2.0, lea
     x_value = float(start_x)
     y_value = float(start_y)
     history = []
-
+    print(f"Initial position: (x={x_value:.4f}, y={y_value:.4f}), f(x,y): {func(x_value, y_value):.4f}, gradient: {grad_func(x_value, y_value)}")
+    print("-" * 30)
     for iteration in range(1, iterations + 1):
         grad_x, grad_y = grad_func(x_value, y_value)
         x_value = float(x_value - learning_rate * grad_x)
