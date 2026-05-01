@@ -33,7 +33,7 @@ from activation_functions import relu, sigmoid
 
 
 # Change this value to choose exactly one example to run.
-SELECTED_EXAMPLE = "regression_tree"
+SELECTED_EXAMPLE = "activation_functions"
 
 
 def run_matrix_linear_independence_example():
@@ -194,6 +194,15 @@ def run_ridge_onehot_polynomial_regression_example():
 	X_test = np.array([[1, 1, 2]])
 	ridge_poly_regression_onehot(X, Y, 0.01, 2, "auto", X_test)
 
+def run_activation_functions_example():
+	# Input: a 1D array of values.
+	# Output: ReLU and sigmoid activations applied elementwise.
+	arr = np.array([-2, -1, 0, 1, 2])
+	relu_result = relu(arr)
+	sigmoid_result = sigmoid(arr)
+	print("Input array:", arr)
+	print("ReLU output:", relu_result)
+	print("Sigmoid output:", np.round(sigmoid_result, 6))
 
 def run_optimization_gradient_descent_1d_example():
 	# Input: default 1-variable objective, starting value, learning rate, and iteration count.
@@ -279,15 +288,14 @@ def run_tree_decision_example():
 	X = np.array([1, 0.8, 2, 2.5, 3, 4, 4.2, 6, 6.3, 7, 8, 8.2, 9])
 	y = np.array([2, 3, 2.5, 1, 2.3, 2.8, 1.5, 2.6, 3.5, 4, 3.5, 5, 4.5])
 	thresholds = [("", 5)]
-	
+	impurity_measure = "gini"
 	# Example 1: MSE-based splitting (default)
-	print("===== Decision Tree with MSE-based splitting (default) =====")
-	tree_overall_impurity(X, y, thresholds, impurity_measure="mse")
-	tree_impurity_summary(X, y, thresholds, max_depth=2, impurity_measure="mse")
+	print(f"===== Decision Tree with {impurity_measure.upper()}-based splitting =====")
+	tree_overall_impurity(X, y, thresholds, impurity_measure=impurity_measure)
+	tree_impurity_summary(X, y, thresholds, max_depth=2, impurity_measure=impurity_measure)
 	
 	# Example 2: Alternative - Gini-based splitting
 	# Uncomment the lines below to compare with Gini impurity measure
-	# print("\n===== Decision Tree with Gini-based splitting (alternative) =====")
 	# tree_overall_impurity(X, y, thresholds, impurity_measure="gini")
 	# tree_impurity_summary(X, y, thresholds, max_depth=2, impurity_measure="gini")
 
@@ -297,15 +305,14 @@ def run_tree_regression_example():
 	# Output: automatically selected thresholds, leaf predictions, and depth-by-depth impurity summary.
 	X = np.array([0.5, 0.6, 1.0, 2.0, 3.0, 3.2, 3.8])
 	y = np.array([0.19, 0.23, 0.28, 0.42, 0.53, 0.75, 0.80])
-	
+	impurity_measure = "misclassification"
 	# Example 1: Automatic splits with MSE (default)
-	print("===== Regression Tree with automatic MSE-based splits (default) =====")
-	tree_overall_impurity_auto(X, y, max_depth=1, impurity_measure="mse")
-	tree_impurity_summary_auto(X, y, max_depth=1, impurity_measure="mse")
+	print(f"===== Regression Tree with automatic {impurity_measure.upper()}-based splitting =====")
+	tree_overall_impurity_auto(X, y, max_depth=1, impurity_measure=impurity_measure)
+	tree_impurity_summary_auto(X, y, max_depth=1, impurity_measure=impurity_measure)
 	
 	# Example 2: Alternative - Automatic splits with Gini
 	# Uncomment the lines below to see how Gini-based splitting differs from MSE
-	# print("\n===== Regression Tree with automatic Gini-based splits (alternative) =====")
 	# tree_overall_impurity_auto(X, y, max_depth=1, impurity_measure="gini")
 	# tree_impurity_summary_auto(X, y, max_depth=1, impurity_measure="gini")
 
@@ -324,17 +331,6 @@ def run_kmeans_example():
 	print("\n=== After Convergence ===")
 	print("Centroids:\n", result["converged"]["centroids"])
 	print("Predictions:", result["converged"]["labels"])
-
-
-def run_activation_functions_example():
-	# Input: a 1D array of values.
-	# Output: ReLU and sigmoid activations applied elementwise.
-	arr = np.array([-2, -1, 0, 1, 2])
-	relu_result = relu(arr)
-	sigmoid_result = sigmoid(arr)
-	print("Input array:", arr)
-	print("ReLU output:", relu_result)
-	print("Sigmoid output:", np.round(sigmoid_result, 6))
 
 
 

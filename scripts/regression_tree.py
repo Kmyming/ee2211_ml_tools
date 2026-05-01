@@ -202,20 +202,33 @@ def tree_overall_impurity_auto(X, y, max_depth=1, impurity_measure="mse"):
 	"""
 	# Step-by-step:
 	# 1. Normalize inputs and build the regression tree up to max_depth using automatic splits.
-	# 2. Generate predictions for all samples with `predict_tree`.
-	# 3. Compute overall MSE and print a short summary (root MSE, leaf preds, actuals, MSE reduction).
+	# 2. Generate predictions and compute overall MSE + MSE reduction.
+	# 3. Compute weighted selected impurity across leaves + selected-impurity reduction.
 	X = _as_1d_array(X, "X")
 	y = _as_1d_array(y, "y")
 	tree = build_regression_tree(X, y, max_depth=max_depth, impurity_measure=impurity_measure)
 	y_pred = predict_tree(X, tree)
 	overall_mse = mean_squared_error(y, y_pred)
-	root_mse = calculate_impurity(y, "mse")  # Always show MSE, even if using other measure for splitting
+	root_mse = calculate_impurity(y, "mse")
+	mse_reduction = root_mse - overall_mse
+
+	def weighted_leaf_impurity(node, total_samples):
+		if node["type"] == "leaf":
+			return (node["n"] / total_samples) * node["impurity"]
+		return weighted_leaf_impurity(node["left"], total_samples) + weighted_leaf_impurity(node["right"], total_samples)
+
+	root_selected_impurity = tree["impurity"]
+	overall_selected_impurity = weighted_leaf_impurity(tree, len(y))
+	selected_reduction = root_selected_impurity - overall_selected_impurity
 
 	print(f"  ROOT MSE (no split): {round(root_mse, 4)}")
 	print(f"  Leaf predictions: {np.round(y_pred, 4)}")
 	print(f"  Actual y        : {np.round(y, 4)}")
 	print(f"  Overall MSE     : {round(overall_mse, 4)}")
-	print(f"  MSE reduction   : {round(root_mse - overall_mse, 4)}")
+	print(f"  MSE reduction   : {round(mse_reduction, 4)}")
+	print(f"  ROOT {impurity_measure.upper()} (no split): {round(root_selected_impurity, 4)}")
+	print(f"  Overall {impurity_measure.upper()} impurity: {round(overall_selected_impurity, 4)}")
+	print(f"  {impurity_measure.upper()} reduction      : {round(selected_reduction, 4)}")
 
 	return overall_mse, y_pred, tree
 

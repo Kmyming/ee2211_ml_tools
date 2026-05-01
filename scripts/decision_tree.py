@@ -149,12 +149,13 @@ def tree_overall_impurity(X, y, splits_flat, impurity_measure="mse"):
 		tuple: (overall_impurity, y_pred)
 	"""
 	# Step-by-step:
-	# 1. Compute root impurity (for reporting) and build the nested tree.
-	# 2. Recursively assign leaf predictions for each sample according to thresholds.
-	# 3. Compute overall MSE between actual y and leaf predictions and print summary.
-	root_impurity = calculate_impurity(y, impurity_measure)
+	# 1. Build the nested tree and assign leaf predictions for each sample.
+	# 2. Compute overall MSE + MSE reduction.
+	# 3. Compute overall selected impurity (weighted leaf impurity) + selected reduction.
 	tree = build_tree(splits_flat)
-	y_pred = np.zeros(len(y))
+	X_arr = np.asarray(X, dtype=float).ravel()
+	y_arr = np.asarray(y, dtype=float).ravel()
+	y_pred = np.zeros(len(y_arr))
 
 	def assign_predictions(X_subset, y_subset, tree_subset, idx):
 		# Step-by-step for assigning predictions:
@@ -173,16 +174,43 @@ def tree_overall_impurity(X, y, splits_flat, impurity_measure="mse"):
 		if right_mask.sum() > 0:
 			assign_predictions(X_subset[right_mask], y_subset[right_mask], tree_subset.get("right", {}), idx[right_mask])
 
-	assign_predictions(np.asarray(X, dtype=float).ravel(), np.asarray(y, dtype=float).ravel(), tree, np.arange(len(y)))
-	
-	# For output, always show MSE regardless of impurity measure used for splitting
-	overall_mse = mean_squared_error(np.asarray(y, dtype=float).ravel(), y_pred)
+	def weighted_leaf_impurity(X_subset, y_subset, tree_subset):
+		# Compute weighted selected impurity across final leaves.
+		if len(y_subset) == 0:
+			return 0.0
 
-	print(f"  ROOT MSE (no split): {round(root_impurity if impurity_measure == 'mse' else calculate_impurity(y, 'mse'), 4)}")
+		if not tree_subset or "TH" not in tree_subset:
+			return (len(y_subset) / len(y_arr)) * calculate_impurity(y_subset, impurity_measure)
+
+		threshold = tree_subset["TH"]
+		left_mask = X_subset <= threshold
+		right_mask = X_subset > threshold
+
+		if not left_mask.any() or not right_mask.any():
+			return (len(y_subset) / len(y_arr)) * calculate_impurity(y_subset, impurity_measure)
+
+		left_value = weighted_leaf_impurity(X_subset[left_mask], y_subset[left_mask], tree_subset.get("left", {}))
+		right_value = weighted_leaf_impurity(X_subset[right_mask], y_subset[right_mask], tree_subset.get("right", {}))
+		return left_value + right_value
+
+	assign_predictions(X_arr, y_arr, tree, np.arange(len(y_arr)))
+	
+	root_mse = calculate_impurity(y_arr, "mse")
+	overall_mse = mean_squared_error(y_arr, y_pred)
+	mse_reduction = root_mse - overall_mse
+
+	root_selected_impurity = calculate_impurity(y_arr, impurity_measure)
+	overall_selected_impurity = weighted_leaf_impurity(X_arr, y_arr, tree)
+	selected_reduction = root_selected_impurity - overall_selected_impurity
+
+	print(f"  ROOT MSE (no split): {round(root_mse, 4)}")
 	print(f"  Leaf predictions: {np.round(y_pred, 4)}")
-	print(f"  Actual y        : {np.round(np.asarray(y, dtype=float).ravel(), 4)}")
+	print(f"  Actual y        : {np.round(y_arr, 4)}")
 	print(f"  Overall MSE     : {round(overall_mse, 4)}")
-	print(f"  MSE reduction   : {round(calculate_impurity(y, 'mse') - overall_mse, 4)}")
+	print(f"  MSE reduction   : {round(mse_reduction, 4)}")
+	print(f"  ROOT {impurity_measure.upper()} (no split): {round(root_selected_impurity, 4)}")
+	print(f"  Overall {impurity_measure.upper()} impurity: {round(overall_selected_impurity, 4)}")
+	print(f"  {impurity_measure.upper()} reduction      : {round(selected_reduction, 4)}")
 
 	return overall_mse, y_pred
 
