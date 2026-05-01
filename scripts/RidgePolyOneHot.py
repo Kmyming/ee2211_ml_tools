@@ -1,6 +1,10 @@
 def ridge_poly_regression_onehot(X,y,LAMBDA,order, form, X_test):
     import numpy as np
     from sklearn.preprocessing import PolynomialFeatures
+    # Step-by-step:
+    # 1. Expand features into polynomial design matrix P using the requested order.
+    # 2. Choose primal/dual ridge form and compute ridge weights on P (similar to ridge_regression).
+    # 3. Compute training predictions and test-time predictions transforming X_test with the same polynomial mapping.
     poly = PolynomialFeatures(order)
     P = poly.fit_transform(X)
     print("the number of parameters: ", P.shape[1])

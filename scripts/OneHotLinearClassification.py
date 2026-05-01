@@ -1,6 +1,11 @@
 def onehot_linearclassification(X, y, X_test):
     import numpy as np
     from sklearn.preprocessing import OneHotEncoder
+    # Step-by-step:
+    # 1. (Optional) If y is not already one-hot encoded, fit/transform using OneHotEncoder.
+    # 2. Treat the one-hot columns as multiple regression targets and solve the linear systems
+    #    (one weight matrix for all classes) using the same closed-form logic as linear regression.
+    # 3. Compute training error metrics and predict class indices on X_test by taking argmax over class scores.
     # onehot = OneHotEncoder(sparse_output=False)
     # Y_onehot = onehot.fit_transform(y)
     # print(Y_onehot)

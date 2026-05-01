@@ -1,5 +1,12 @@
 def linear_regression(X, y, X_test):
     import numpy as np
+    # Step-by-step:
+    # 1. Inspect matrix shapes to determine whether the linear system is overdetermined, underdetermined or full rank.
+    # 2. Depending on the system type, compute the appropriate closed-form solution:
+    #    - Overdetermined: normal equations using (X^T X)^{-1} X^T y
+    #    - Underdetermined: dual/least-norm solution using X^T (X X^T)^{-1} y
+    #    - Full rank square: direct inverse X^{-1} y
+    # 3. Compute training predictions, training SSE / MSE, and apply model to X_test to obtain predictions.
     if X.shape[1]<X.shape[0]:
         system="overdetermined"
     elif X.shape[1]>X.shape[0]:

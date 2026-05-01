@@ -2,7 +2,12 @@ import numpy as np
 
 
 def cov(list1, list2):
-    """Return the population covariance between two 1D sequences."""
+    """Return the population covariance between two 1D sequences.
+
+    Step-by-step:
+    1. Flatten both inputs to 1D numpy arrays and verify equal length.
+    2. Compute sample means and return the mean of (x - mean_x)*(y - mean_y).
+    """
     x = np.asarray(list1, dtype=float).ravel()
     y = np.asarray(list2, dtype=float).ravel()
 
@@ -15,13 +20,24 @@ def cov(list1, list2):
 
 
 def standard_dev(data_list):
-    """Return the population standard deviation of a 1D sequence."""
+    """Return the population standard deviation of a 1D sequence.
+
+    Step-by-step:
+    1. Flatten input to 1D array.
+    2. Compute sqrt(mean((x - mean(x))^2)) and return as float.
+    """
     data = np.asarray(data_list, dtype=float).ravel()
     return float(np.sqrt(np.mean((data - np.mean(data)) ** 2)))
 
 
 def pearson_correlation(list1, list2):
-    """Return Pearson's r for two 1D sequences."""
+    """Return Pearson's r for two 1D sequences.
+
+    Step-by-step:
+    1. Compute the population standard deviations of both inputs.
+    2. If either std is zero the correlation is undefined (raise error).
+    3. Return covariance / (std1 * std2).
+    """
     std1 = standard_dev(list1)
     std2 = standard_dev(list2)
 

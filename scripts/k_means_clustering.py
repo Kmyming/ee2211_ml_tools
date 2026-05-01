@@ -3,7 +3,14 @@ from sklearn.cluster import KMeans
 
 
 def run_kmeans(x, init_centroids, max_iter=2, random_state=0):
-    """Run KMeans once with a limited iteration count and once to convergence."""
+    """Run KMeans once with a limited iteration count and once to convergence.
+
+    Step-by-step:
+    1. Convert inputs to numpy arrays and ensure correct dtypes.
+    2. Fit a `KMeans` instance with `max_iter` to show intermediate centroids/labels.
+    3. Fit another `KMeans` instance without `max_iter` to run until convergence.
+    4. Return both partial and converged results (models, centroids, labels).
+    """
     x = np.asarray(x, dtype=float)
     init_centroids = np.asarray(init_centroids, dtype=float)
 

@@ -1,5 +1,9 @@
 def ridge_linear_regression_onehot(X,y,LAMBDA,order, form, X_test):
     import numpy as np
+    # Step-by-step:
+    # 1. (Optional) Determine primal/dual form automatically or use provided `form`.
+    # 2. Construct identity matrix of appropriate size and compute ridge solution.
+    # 3. Compute training predictions, MSE and convert test predictions to class indices with argmax.
     if form=="auto":
         if X.shape[1] < X.shape[0]:
             system = "overdetermined"

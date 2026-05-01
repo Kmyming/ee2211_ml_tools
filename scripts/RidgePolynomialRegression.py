@@ -1,6 +1,10 @@
 def ridge_poly_regression(X,y,LAMBDA,order, form, X_test):
     import numpy as np
     from sklearn.preprocessing import PolynomialFeatures
+    # Step-by-step:
+    # 1. Create polynomial design matrix P for training features X.
+    # 2. Determine primal/dual form (auto or provided), then compute ridge weights for P.
+    # 3. Transform X_test into polynomial space and compute test predictions.
     poly = PolynomialFeatures(order)
     P = poly.fit_transform(X)
     print("the number of parameters: ", P.shape[1])

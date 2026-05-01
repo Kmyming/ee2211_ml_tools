@@ -1,9 +1,14 @@
 import numpy as np
 from numpy.linalg import inv
 
-
 def create_regressors(x, max_order):
-    """Create polynomial regressor matrices from order 1 up to max_order."""
+    """Create polynomial regressor matrices from order 1 up to max_order.
+
+    Step-by-step:
+    1. Flatten input x to a 1D array.
+    2. For each order 1..max_order construct a design matrix with columns [1, x, x^2, ..., x^order].
+    3. Return list of design matrices for each order.
+    """
     x = np.asarray(x, dtype=float).ravel()
     regressors = []
     for order in range(1, max_order + 1):
@@ -16,7 +21,15 @@ def create_regressors(x, max_order):
 
 
 def estimate_weights(p_list, y, reg=None):
-    """Estimate polynomial regression weights for each regressor matrix."""
+    """Estimate polynomial regression weights for each regressor matrix.
+
+    Step-by-step:
+    1. Ensure y is a column vector.
+    2. For each polynomial design matrix in `p_list` compute weights:
+       - If `reg` is None use direct normal-equation or dual solution based on shape.
+       - If `reg` provided, compute regularized solution w = (P^T P + reg I)^{-1} P^T y.
+    3. Return list of weight matrices.
+    """
     y = np.asarray(y, dtype=float)
     if y.ndim == 1:
         y = y.reshape(-1, 1)
@@ -37,7 +50,12 @@ def estimate_weights(p_list, y, reg=None):
 
 
 def perform_prediction(p_list, w_list):
-    """Predict y values for each polynomial order."""
+    """Predict y values for each polynomial order.
+
+    Step-by-step:
+    1. For each order multiply the design matrix by its corresponding weight vector.
+    2. Collect per-order predictions as columns in a matrix and return it.
+    """
     n_samples = p_list[0].shape[0]
     max_order = len(p_list)
     y_predict_mat = np.zeros((n_samples, max_order))

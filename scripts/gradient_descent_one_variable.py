@@ -2,7 +2,18 @@ import numpy as np
 
 
 def gradient_descent_1d(func=None, grad_func=None, start_value=2.0, learning_rate=0.1, iterations=4):
-    """Run gradient descent for one variable and return the full update history."""
+    """Run gradient descent for one variable and return the full update history.
+
+    Step-by-step:
+    1. If `func` or `grad_func` are not provided, use sensible defaults.
+    2. Initialize `current_value` from `start_value` and prepare an empty `history` list.
+    3. For each iteration:
+       a. Evaluate gradient at the current value.
+       b. Update `current_value = current_value - learning_rate * gradient`.
+       c. Recompute gradient and function value at the new point.
+       d. Append the iteration record (iteration number, x, f_x, gradient) to `history`.
+    4. Return the final x, the history list, and the function/gradient used.
+    """
     if func is None:
         func = lambda x: np.cos(x ** 2) ** 2
     if grad_func is None:

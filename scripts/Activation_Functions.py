@@ -1,28 +1,33 @@
 import numpy as np
+
+
 def sigmoid(x):
-    return 1/(1+np.exp(-x))
+    """Sigmoid activation function.
 
-def ReLU(x):
-    return x*(x>0)
-
-def test(x):
-    return(x+1)
-
-# X=np.array([[1,2,1],[1,5,1]])
-# W1=np.array([[-1,0,1],[0,-1,0],[1,0,-1]])
-# W2=np.array([[-1,0,1],[0,-1,0],[1,0,1],[1,-1,1]])
-# f = np.vectorize(sigmoid)
-# layer1=f(X@W1)
-# print('f(X@W1)',layer1)
-# inner2=np.hstack((np.ones((len(layer1),1)),layer1))
-# layer2=f(inner2@W2)
-# print('f(inner2)',layer2)
-# inner3=np.hstack((np.ones((len(layer2),1)),layer2))
-# layer3=f(inner3@W2)
-# print('layer3', layer3)
+    Step-by-step:
+    1. Accept scalar/array-like input `x` and rely on numpy broadcasting.
+    2. Compute exponent `exp(-x)`.
+    3. Compute `1 / (1 + exp(-x))` elementwise and return the result.
+    """
+    return 1 / (1 + np.exp(-x))
 
 
-# X=np.array([[1,1,3],[1,2,2.5]])
-# W1=np.array([[-1,0,1],[0,-1,0],[1,0,1]])
-# f = np.vectorize(ReLU)
-# print(f(f(X@W1)@W1))
+def relu(x):
+    """ReLU activation function.
+
+    Step-by-step:
+    1. Accept scalar/array-like input `x`.
+    2. Apply elementwise `max(0, x)` using numpy's vectorized `maximum`.
+    3. Return the result (non-negative values with negative inputs clipped to 0).
+    """
+    return np.maximum(0, x)
+
+
+ReLU = relu
+
+
+if __name__ == "__main__":
+    arr = np.array([-2, -1, 0, 1, 2])
+    print("Input:", arr)
+    print("ReLU:", relu(arr))
+    print("Sigmoid:", sigmoid(arr))

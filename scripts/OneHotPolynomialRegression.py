@@ -1,6 +1,10 @@
 def polynomial_regression_onehot(X,y,order,X_test):
     import numpy as np
     from sklearn.preprocessing import PolynomialFeatures
+    # Step-by-step:
+    # 1. Use `PolynomialFeatures` to expand `X` into polynomial basis P of desired order.
+    # 2. Determine whether P is over/under/full-rank and solve for weights via closed-form linear algebra.
+    # 3. Compute training predictions, errors, and transform X_test similarly to obtain test predictions.
     poly = PolynomialFeatures(order)
     P = poly.fit_transform(X)
     print("the number of parameters: ", P.shape[1])

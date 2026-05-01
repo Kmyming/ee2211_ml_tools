@@ -5,6 +5,10 @@
 def polynomial_regression(X,y,order,X_test):
     import numpy as np
     from sklearn.preprocessing import PolynomialFeatures
+    # Step-by-step:
+    # 1. Transform raw features X into polynomial features P using `PolynomialFeatures`.
+    # 2. Solve for polynomial coefficients w using closed-form linear algebra depending on rank.
+    # 3. Compute training predictions and errors, transform X_test to P_test and produce test predictions.
     poly = PolynomialFeatures(order)
     P = poly.fit_transform(X) # learns which new feature combinations to create based on the input dimensions) and then applies this transformation to the same data.
     print("the number of parameters: ", P.shape[1])

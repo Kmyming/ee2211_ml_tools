@@ -2,7 +2,12 @@ from statistical_functions import pearson_correlation as _pearson_correlation
 
 
 def pearson_correlation(X, Y):
-    """Backward-compatible wrapper for the Pearson correlation objective."""
+    """Backward-compatible wrapper for the Pearson correlation objective.
+
+    Step-by-step:
+    1. Forward the call to `statistical_functions.pearson_correlation`.
+    2. Return the numeric Pearson r value to the caller.
+    """
     return _pearson_correlation(X, Y)
 
 

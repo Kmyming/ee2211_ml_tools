@@ -3,7 +3,14 @@ from numpy.linalg import inv, matrix_rank
 
 
 def are_linearly_independent(vectors):
-    """Check whether stacked row vectors are linearly independent."""
+    """Check whether stacked row vectors are linearly independent.
+
+    Step-by-step:
+    1. Stack input `vectors` into a 2D numpy array (rows are vectors).
+    2. Compute the matrix rank using `numpy.linalg.matrix_rank`.
+    3. Compare rank to the number of row vectors; if equal they are independent.
+    4. Return a tuple (is_independent, rank, num_vectors).
+    """
     matrix = np.asarray(vectors, dtype=float)
     rank = matrix_rank(matrix)
     num_vectors = matrix.shape[0]
@@ -11,10 +18,16 @@ def are_linearly_independent(vectors):
 
 
 def matrix_rank_value(matrix):
+    # Step-by-step:
+    # 1. Convert input to numpy array and compute the matrix rank.
+    # 2. Return the rank as an integer.
     return int(matrix_rank(np.asarray(matrix, dtype=float)))
 
 
 def determinant(matrix):
+    # Step-by-step:
+    # 1. Convert to numpy array and check squareness.
+    # 2. Use `numpy.linalg.det` to compute and return determinant as float.
     matrix = np.asarray(matrix, dtype=float)
     if matrix.shape[0] != matrix.shape[1]:
         raise ValueError("determinant() requires a square matrix")
@@ -22,6 +35,9 @@ def determinant(matrix):
 
 
 def inverse(matrix):
+    # Step-by-step:
+    # 1. Convert to numpy array and check squareness.
+    # 2. Use `numpy.linalg.inv` to compute and return the inverse.
     matrix = np.asarray(matrix, dtype=float)
     if matrix.shape[0] != matrix.shape[1]:
         raise ValueError("inverse() requires a square matrix")
@@ -29,6 +45,11 @@ def inverse(matrix):
 
 
 def left_right_invertible(matrix):
+    # Step-by-step:
+    # 1. Convert input to numpy array and determine its shape (m rows, n cols).
+    # 2. Compute rank. A matrix is left-invertible when rank == n and m >= n.
+    # 3. It is right-invertible when rank == m and n >= m.
+    # 4. Return a dict describing left/right invertibility, rank and shape.
     matrix = np.asarray(matrix, dtype=float)
     m, n = matrix.shape
     rank = matrix_rank(matrix)
@@ -51,6 +72,14 @@ def det_checker(X):
 
 
 def RC_checker(X, y):
+    # Step-by-step:
+    # 1. Convert X and y to arrays and ensure y is a column vector.
+    # 2. Form the augmented matrix [X|y] and compute ranks of X and [X|y].
+    # 3. Compare ranks to determine the rank condition RC:
+    #    RC=1 => unique solution (rankX == rankX_ == d),
+    #    RC=2 => inconsistent (rankX < rankX_),
+    #    RC=3 => infinitely many solutions (rankX == rankX_ < d).
+    # 4. Return (RC, rankX, rankX_).
     X = np.asarray(X, dtype=float)
     y = np.asarray(y, dtype=float)
     if y.ndim == 1:
@@ -128,6 +157,10 @@ def underSolver(X, y):
 
 
 def solveLE(X, y):
+    # Step-by-step:
+    # 1. Determine the shape relation of X (even/over/under) using det_checker.
+    # 2. Dispatch to the corresponding solver (evenSolver/overSolver/underSolver).
+    # 3. Print a human-readable result and return the solution `w` (or None if not available).
     detX = det_checker(X)
     if detX == "even":
         w, ans = evenSolver(X, y)

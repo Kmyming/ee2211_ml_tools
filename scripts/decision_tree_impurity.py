@@ -12,7 +12,16 @@ def _node_metrics(node):
 
 
 def tree_impurity(layers):
-    """Print impurity metrics for each node and weighted impurity per depth."""
+    """Print impurity metrics for each node and weighted impurity per depth.
+
+    Step-by-step:
+    1. Iterate over depth layers supplied as `layers` (each layer is a list of class-count arrays).
+    2. Convert each node to numpy arrays and compute total samples at this depth.
+    3. For each node compute Gini, entropy and misclassification via `_node_metrics`.
+    4. Compute the weight (node sample count / total samples) for each node.
+    5. Compute depth-level (weighted) impurity by summing weight * node_impurity.
+    6. Print node-level and depth-level impurity summaries and return structured summaries.
+    """
     summaries = []
     for depth, sample_arr in enumerate(layers, start=0):
         if not sample_arr:
@@ -62,7 +71,16 @@ def tree_impurity(layers):
 
 
 def overall_impurity(layers, selected_depths):
-    """Print impurity metrics across selected depths."""
+    """Print impurity metrics across selected depths.
+
+    Step-by-step:
+    1. Collect nodes from the requested `selected_depths` into a single list.
+    2. If no valid nodes found, return None.
+    3. Compute total sample count across the selected nodes.
+    4. For each node compute Gini, entropy and misclassification via `_node_metrics`.
+    5. Compute overall (weighted) impurity using node sample proportions.
+    6. Print and return a summary dictionary with node-level and overall impurity values.
+    """
     all_nodes = []
     for depth in selected_depths:
         if depth >= len(layers) or not layers[depth]:

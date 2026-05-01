@@ -3,6 +3,11 @@ from numpy.ma.core import identity
 
 def ridge_regression(X, y, LAMBDA, X_test, form="auto"):
     import numpy as np
+    # Step-by-step:
+    # 1. Determine whether to use primal or dual ridge form (auto-select based on shape or use provided `form`).
+    # 2. For primal form compute w = (X^T X + lambda I)^{-1} X^T y.
+    # 3. For dual form compute w = X^T (X X^T + lambda I)^{-1} y.
+    # 4. Compute predictions, SSE/MSE on training data and prediction on X_test.
     if form=="auto":
         if X.shape[1] < X.shape[0]:
             system = "overdetermined"

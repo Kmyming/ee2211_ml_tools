@@ -2,7 +2,16 @@ import numpy as np
 
 
 def gradient_descent_2d(func=None, grad_func=None, start_x=3.0, start_y=2.0, learning_rate=0.2, iterations=5):
-    """Run gradient descent for two variables and return the full update history."""
+    """Run gradient descent for two variables and return the full update history.
+
+    Step-by-step:
+    1. Use default objective/gradient if none provided.
+    2. Initialize x and y from `start_x` and `start_y`.
+    3. For each iteration evaluate gradient components (grad_x, grad_y).
+    4. Update each coordinate: x <- x - lr * grad_x, y <- y - lr * grad_y.
+    5. Record the new coordinates, gradient components and function value into `history`.
+    6. Return final coordinates, history, and the provided objective/gradient.
+    """
     if func is None:
         func = lambda x, y: x ** 2
     if grad_func is None:
