@@ -26,9 +26,9 @@ Here is a list of everything this repository can do, mapped to their computation
 - Gradient descent for 1 variable (can edit iterations and learning rate) -> `gradient_descent_one_variable.py`
 - Gradient descent for 2 variables (can edit iterations and learning rate) -> `gradient_descent_two_variable.py`
 - Calculate node and depth impurity using the 3 methods (Gini, Entropy, Misclassification error) -> `decision_tree_impurity.py`
-- Impurity measure calculations (MSE, Entropy, Gini, Misclassification Rate) -> `impurity_measures.py`
-- Calculate impurity for decision tree with original data and thresholds (supports multiple impurity measures) -> `decision_tree.py`
-- Automatic regression tree with best-split search using any impurity measure and max-depth control -> `regression_tree.py`
+- Impurity measure calculations (MSE, Gini, Entropy, Misclassification Rate) -> `impurity_measures.py`
+- Calculate impurity for decision tree with original data and thresholds (supports multiple impurity measures - MSE, Gini, Entropy, Misclassification Rate) -> `decision_tree.py`
+- Automatic regression tree with best-split search using any impurity measure(MSE, Gini, Entropy, Misclassification Rate) and max-depth control -> `regression_tree.py`
 
 **Unsupervised Learning:**
 - K-means clustering to predict centroids (can edit iterations) -> `k_means_clustering.py`
