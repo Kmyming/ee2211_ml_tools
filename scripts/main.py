@@ -34,7 +34,7 @@ from activation_functions import relu, sigmoid
 
 
 # Change this value to choose exactly one example to run.
-SELECTED_EXAMPLE = "onehot_linear_classification"
+SELECTED_EXAMPLE = "polynomial_parameters_calculator"
 
 
 def run_matrix_linear_independence_example():
@@ -143,10 +143,10 @@ def run_polynomial_parameters_calculator_example():
 	
 	examples = [
 		(2, 2),  # 2 features, degree 2
-		(3, 2),  # 3 features, degree 2
-		(2, 3),  # 2 features, degree 3
-		(4, 2),  # 4 features, degree 2
-		(5, 3),  # 5 features, degree 3
+		# (3, 2),  # 3 features, degree 2
+		# (2, 3),  # 2 features, degree 3
+		# (4, 2),  # 4 features, degree 2
+		# (5, 3),  # 5 features, degree 3
 	]
 	
 	for num_features, poly_degree in examples:

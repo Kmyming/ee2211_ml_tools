@@ -1,1 +1,4 @@
 __pycache__/
+scripts/validation_activation_functions.py
+scripts/validation_impurity_measures.py
+scripts/validation_script.py
