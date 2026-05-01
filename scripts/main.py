@@ -24,7 +24,7 @@ from statistical_functions import cov, standard_dev
 from LinearRegression import linear_regression
 from OneHotLinearClassification import onehot_linearclassification
 from OneHotPolynomialRegression import polynomial_regression_onehot
-from PolynomialRegression import polynomial_regression
+from PolynomialRegression import polynomial_regression, calculate_polynomial_parameters
 from RidgeOneHot import ridge_linear_regression_onehot
 from RidgePolyOneHot import ridge_poly_regression_onehot
 from RidgePolynomialRegression import ridge_poly_regression
@@ -130,6 +130,30 @@ def run_polynomial_regression_example():
 	Y = np.array([[-1], [-1], [-1], [1], [1],[1]])
 	X_test = np.array([[4],[7],[10],[2],[3],[9],[6]])
 	polynomial_regression(X, Y, 4, X_test)
+
+
+def run_polynomial_parameters_calculator_example():
+	# Input: number of original features and polynomial degree.
+	# Output: total number of parameters (columns) in the polynomial design matrix.
+	# Step-by-step: Use the combinatorial formula C(d+n, n) = (d+n)! / (n! * d!)
+	print("Polynomial Regression Parameter Calculator")
+	print("=" * 50)
+	print("Formula: C(d+n, n) = (d+n)! / (n! * d!)")
+	print("where d = original features, n = polynomial degree\n")
+	
+	examples = [
+		(2, 2),  # 2 features, degree 2
+		(3, 2),  # 3 features, degree 2
+		(2, 3),  # 2 features, degree 3
+		(4, 2),  # 4 features, degree 2
+		(5, 3),  # 5 features, degree 3
+	]
+	
+	for num_features, poly_degree in examples:
+		num_params = calculate_polynomial_parameters(num_features, poly_degree)
+		print(f"Features={num_features}, Degree={poly_degree}")
+		print(f"  Total parameters (including bias): {num_params}")
+		print()
 
 
 def run_ridge_regression_example():
@@ -369,6 +393,7 @@ EXAMPLE_REGISTRY = {
 	"regression_examples": {
 		"linear_regression": run_linear_regression_example,
 		"polynomial_regression": run_polynomial_regression_example,
+		"polynomial_parameters_calculator": run_polynomial_parameters_calculator_example,
 		"ridge_regression": run_ridge_regression_example,
 		"ridge_polynomial_regression": run_ridge_polynomial_regression_example,
 		"onehot_linear_classification": run_onehot_linear_classification_example,

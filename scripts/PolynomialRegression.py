@@ -2,6 +2,27 @@
 # reshaped = X[:,1].reshape(len(X[:,1]),1)
 # reshaped = Xt[:,1].reshape(len(Xt[:,1]),1)
 
+def calculate_polynomial_parameters(num_features, polynomial_degree):
+	"""Calculate the total number of parameters (columns) in polynomial regression design matrix.
+
+	Step-by-step:
+	1. Use the combinatorial formula C(d+n, n) = (d+n)! / (n! * d!)
+	   where d = number of original input features and n = polynomial degree.
+	2. This includes the bias term (the constant 1 in the first column).
+	
+	Args:
+		num_features: int, number of original input features (excluding bias).
+		polynomial_degree: int, polynomial degree n.
+	
+	Returns:
+		int: Total number of parameters/columns including bias.
+	"""
+	from math import comb
+	# C(d+n, n) computes binomial coefficient
+	total_params = comb(num_features + polynomial_degree, polynomial_degree)
+	return total_params
+
+
 def polynomial_regression(X,y,order,X_test):
     import numpy as np
     from sklearn.preprocessing import PolynomialFeatures
