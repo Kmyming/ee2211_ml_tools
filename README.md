@@ -12,6 +12,7 @@ Here is a list of everything this repository can do, mapped to their computation
 **ML Regression Models:**
 - Linear regression -> `LinearRegression.py`
 - Polynomial regression -> `PolynomialRegression.py`
+- Polynomial parameters calculator (calculate total parameters for polynomial features) -> `PolynomialRegression.py`
 - One-hot encoding linear regression -> `OneHotLinearClassification.py`
 - One-hot encoding polynomial regression -> `OneHotPolynomialRegression.py`
 - Ridge regression -> `RidgeRegression.py`
@@ -70,6 +71,7 @@ All regression modules leverage standard training inputs `X` (raw shapes), targe
 
 * **`linear_regression`**: Requires `X_fitted` (feature matrix with appended 1s for bias), `Y` (target vector), and `X_test_fitted` (test cases testing the resultant regression line).
 * **`polynomial_regression`**: Requires raw un-fitted features `X` and targets `Y`, your desired polynomial degree `order` (e.g., $2$), and `X_test`. The function handles generating the specific polynomial transforms internally.
+* **`polynomial_parameters_calculator`**: Calculates the total number of polynomial parameters (including bias) for a given number of features and polynomial degree using the combinatorial formula $C(d+n, n) = \frac{(d+n)!}{n! \cdot d!}$. Useful for understanding model complexity and dimensionality before building polynomial regression models.
 * **`ridge_regression`**: Requires `X_fitted`, targets `Y`, a custom regularisation penalty float `LAMBDA` (e.g., $0.1$), and `X_test_fitted`. Useful for minimizing coefficient explosion in overdetermined systems.
 * **`ridge_polynomial_regression`**: Uses raw un-fitted features `X` and targets `Y`, regularisation penalty float `LAMBDA`, your target polynomial degree `order`, the calculation mode `form`, and `X_test`. 
 * **`onehot_linear_classification`**: Takes `X_fitted` and mappings `Y` corresponding exactly to grouped one-hot formats (e.g. $[1,0]$, $[0,1]$ mapping distinct target classes), alongside `X_test_fitted`. Outputs optimal class assignments by isolating the argument maximums of mapping outputs.
